@@ -1,0 +1,25 @@
+
+flowchart LR
+    subgraph PRE["Precompute — Ahead of Request"]
+        direction TB
+        L[LLM Reasoning]
+        L -->|generates| A[(Versioned<br/>Artifact)]
+        A -.->|scheduled<br/>regeneration| L
+    end
+
+    subgraph REQ["Serve & Escalate — At Request Time"]
+        direction TB
+        U[User Request] --> D{Coverage<br/>Confidence<br/>Freshness OK?}
+        D -->|Yes — common case| S[Serve from artifact<br/>no live inference]
+        D -->|No — declared path| E[Escalate to live LLM<br/>bounded, disclosed]
+    end
+
+    A ==> D
+
+    classDef precompute fill:#e3f2fd,stroke:#1976d2,color:#0d47a1
+    classDef serve fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef escalate fill:#fff3e0,stroke:#e65100,color:#bf360c
+
+    class L,A precompute
+    class S serve
+    class E escalate
