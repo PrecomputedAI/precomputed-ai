@@ -18,7 +18,7 @@ A scheduled job — daily, weekly, or triggered by an external event — regener
 
 ## Canonical example
 
-[CloudEstimate](https://cloudestimate.dev) prices self-managed workloads across AWS, GCP, and Azure against scheduled regional pricing snapshots. The "Pricing data last refreshed" footer surfaces the staleness window directly to the user. Currently demonstrates the serving architecture; LLM-mediated regeneration is roadmapped.
+[CloudEstimate](https://cloudestimate.dev) prices self-managed workloads across AWS, GCP, and Azure against scheduled regional pricing snapshots and serves LLM-generated sizing explanations from a versioned artifact cache. Both the pricing and explanation artifacts refresh daily via GitHub Actions. The "Pricing data last refreshed" footer surfaces the staleness window directly to the user.
 
 ## When it fits
 
