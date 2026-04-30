@@ -1,6 +1,6 @@
 # Patterns
 
-Named patterns under the [Precomputed AI](https://precomputedai.com) frame. Each pattern applies the three required properties — versioned artifact, regeneration cadence, declared escalation — to a specific class of problem.
+Named patterns under [Precomputed AI](https://precomputedai.com). Each pattern applies the three required properties — versioned artifact, regeneration cadence, declared escalation — to a specific class of problem.
 
 | Pattern | Canonical example |
 |---|---|

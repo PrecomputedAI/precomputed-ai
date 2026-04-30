@@ -8,7 +8,7 @@ A few weeks ago I wrote about [Token Consumption Anxiety](https://dev.to/regnard
 
 In that post, I suggested three ways to deal with it. I've been sitting with that idea for a while now. It's bigger than a footnote in an anxiety post. It's the pattern behind every AI tool I've shipped this year.
 
-So I'm giving it a proper name and a proper frame.
+So I'm giving it a proper name and writing it up properly.
 
 Call it **Precomputed AI**, or **PAI** for short.
 
@@ -16,11 +16,11 @@ Call it **Precomputed AI**, or **PAI** for short.
 
 ## What it is
 
-**Precomputed AI is an artifact-first LLM architecture. A model is used before request time to transform a bounded domain into a versioned, testable artifact. At request time, the application serves through that artifact without live inference, and escalates to a live model only when declared coverage, confidence, freshness, or ambiguity conditions fail.**
+**The idea is simple: use the LLM before your users show up, not while they're waiting. Bake the reasoning into something you can version, test, and serve instantly. Only call the LLM live when the precomputed stuff can't handle it.**
 
 Three words: *precompute, serve, escalate.*
 
-If you've used Next.js static export, Jekyll, or Hugo, the shape will feel familiar. Those tools generate pages at build time and serve them instantly at request time, falling back to dynamic rendering only when they have to. PAI applies the same idea to LLM reasoning.
+If you've used Next.js static export, Jekyll, or Hugo, this will look familiar. Those tools generate pages at build time and serve them instantly at request time, falling back to dynamic rendering only when they have to. PAI applies the same idea to LLM reasoning.
 
 The artifact doesn't have to be a web page. It can be a decision ruleset. A lookup table. Generated code. A precomputed explanation. A policy surface. What matters is where the reasoning lives — not on the user's request, but ahead of it.
 
@@ -42,11 +42,11 @@ PAI gets confused with several adjacent ideas. It shouldn't be.
 
 **It's not routing or cascades.** Routing decides *which* model handles the request. PAI removes the model from the request path altogether.
 
-**It's not Compiled AI.** A recent paper from XY.AI Labs, Stanford, Cornell, and Harvard defines Compiled AI as LLM-generated code artifacts that run deterministically without further model invocation. That's one valid technique inside PAI, but PAI is broader. It admits non-code artifacts, and it keeps escalation as a first-class option.
+**It's not Compiled AI.** A recent paper from XY.AI Labs, Stanford, Cornell, and Harvard defines Compiled AI as LLM-generated code artifacts that run deterministically without further model invocation. That's one valid technique inside PAI, but PAI covers more than just code artifacts, and it keeps escalation as a first-class option.
 
-PAI also sits *above* implementation tooling like DSPy, LMQL, and guidance. Those are ways to author and optimize prompts and programs. PAI is the design frame that decides where the resulting reasoning lives — at request time, or ahead of it.
+PAI also sits *above* implementation tooling like DSPy, LMQL, and guidance. Those are ways to author and optimize prompts and programs. PAI is the design pattern that decides where the resulting reasoning lives — at request time, or ahead of it.
 
-I recognize this is not a blanket frame that applies to every situation. PAI fits best where the input space is bounded and the reasoning is stable enough to precompute — rules-based systems, deterministic paths, decisions that don't need to be re-derived on every request.
+I recognize this doesn't apply to every situation. PAI fits best where the input space is bounded and the reasoning is stable enough to precompute — rules-based systems, deterministic paths, decisions that don't need to be re-derived on every request.
 
 ---
 
@@ -60,7 +60,7 @@ Every PAI system has three required properties. Without all three, you have some
 
 **3. A declared escalation path.** When the artifact can't decide — novel input, low confidence, expired freshness — the system escalates to a live LLM. Escalation is *declared*: documented, gated, and bounded. In user-facing tools, the most legible form is opt-in with disclosed cost. In enterprise systems, escalation may be policy-based, budget-gated, or admin-approved. The contract is the same; the surface differs.
 
-The artifact form itself is open. Rulesets, tables, generated code, precomputed text, policy surfaces, routing maps — all admissible. PAI asks *where reasoning lives*, not *what shape it takes*.
+The artifact form itself is open. Rulesets, tables, generated code, precomputed text, policy surfaces, routing maps — all fair game. PAI asks *where reasoning lives*, not *what form it takes*.
 
 ---
 
@@ -76,7 +76,7 @@ Three named patterns currently have shipped proof. Each is a way of applying the
 
 ---
 
-## Two tools shipped under this frame
+## Two tools I've shipped with this pattern
 
 **[rightmodel.dev](https://rightmodel.dev)** is a model picker for coding tasks. It uses a precomputed ruleset to recommend the cheapest model tier that fits the job. Prices are refreshed on a schedule. Explanations are precomputed per recommendation.
 
@@ -88,13 +88,13 @@ RightModel is the canonical full-PAI example: precomputed ruleset, scheduled reg
 
 **[cloudestimate.dev](https://cloudestimate.dev)** sizes self-managed workloads across AWS, Google Cloud, and Microsoft Azure. Published vendor reference architectures are mapped to cloud instance tables, then priced against cached regional snapshots. The "Pricing data last refreshed" footer shows the staleness window directly to the user.
 
-CloudEstimate now satisfies all three required PAI properties. Pricing snapshots refresh daily via GitHub Actions. Explanation artifacts — 3–4 sentence grounded sizing rationales — are generated by Gemini 2.5 Flash on the same cadence and committed to the repository as versioned JSON. The declared escalation path for inputs not covered by the AI artifact (committed-term views) is a deterministic fallback grounded in the same pricing data. That fallback is not a live LLM call; it is a computed, auditable degraded state — a valid escalation contract for a domain where deterministic output is correct by construction. The live LLM escalation endpoint remains a future addition for cases where deterministic output is demonstrably insufficient.
+CloudEstimate now hits all three PAI requirements. Pricing snapshots refresh daily via GitHub Actions. Gemini 2.5 Flash generates short sizing explanations on the same schedule, and they get committed to the repo as versioned JSON. For inputs the artifact doesn't cover — like committed-term pricing — the system falls back to a deterministic calculation using the same pricing data. No live LLM call needed. A live LLM escalation is planned for later, for cases where the deterministic answer clearly isn't good enough.
 
 ---
 
 ## When PAI fits
 
-PAI is the right frame when:
+PAI fits when:
 
 - the input space is bounded or classifiable;
 - the reasoning changes slower than request frequency;
@@ -106,7 +106,7 @@ PAI is the right frame when:
 
 ## When PAI doesn't fit
 
-PAI is the wrong frame when:
+PAI doesn't fit when:
 
 - every request requires fresh world state;
 - the task is highly personalized and context-heavy;
@@ -127,7 +127,7 @@ Latency budgets are tight. Users don't tolerate synchronous LLM calls in interfa
 
 Auditability is becoming a buyer requirement. Enterprise and regulated industries do not accept "the model decided" as an audit trail. Precomputed artifacts are easier to inspect, version, diff, test, and replay than free-form live inference.
 
-LLM providers themselves are converging on this direction — prompt caching, batch APIs, cached responses — without naming it as a design frame. PAI is the name for what a lot of us are already doing under different labels.
+LLM providers themselves are moving in this direction — prompt caching, batch APIs, cached responses — without giving it a name. PAI is the name for what a lot of us are already doing under different labels.
 
 ---
 
