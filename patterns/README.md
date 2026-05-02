@@ -1,13 +1,12 @@
 # Patterns
 
-Named patterns under [Precomputed AI](https://precomputedai.com). Each pattern applies the three required properties — versioned artifact, regeneration cadence, declared escalation — to a specific class of problem.
+Named patterns under [Precomputed AI](https://precomputedai.com). Each pattern applies the three required properties — versioned artifact, regeneration cadence, declared coverage path — to a specific class of problem.
 
 | Pattern | Canonical example |
 |---|---|
 | [Ruleset Compilation](./ruleset-compilation.md) | [RightModel](https://rightmodel.dev) |
-| [Scheduled Generation](./scheduled-generation.md) | [CloudEstimate](https://cloudestimate.dev) |
-| [Heuristic-First, LLM-Escalated](./heuristic-first-llm-escalated.md) | [RightModel](https://rightmodel.dev) |
 | [Constraint Baking](./constraint-baking.md) | [RunWhere](https://runwhere.dev) |
+| [Scheduled Generation](./scheduled-generation.md) | [CloudEstimate](https://cloudestimate.dev) |
 
 ## Contributing
 

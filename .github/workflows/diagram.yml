@@ -1,0 +1,56 @@
+name: Render diagram
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "diagram.mmd"
+      - ".github/workflows/diagram.yml"
+  pull_request:
+    paths:
+      - "diagram.mmd"
+      - ".github/workflows/diagram.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli@11
+
+      - name: Render diagram.mmd to diagram.png
+        run: mmdc -i diagram.mmd -o diagram.png -b transparent -w 1600
+
+      - name: Commit regenerated PNG (push to main only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          if git diff --quiet diagram.png; then
+            echo "No changes to diagram.png"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add diagram.png
+          git commit -m "ci: regenerate diagram.png from diagram.mmd"
+          git push
+
+      - name: Fail PR if diagram.png is out of date
+        if: github.event_name == 'pull_request'
+        run: |
+          if ! git diff --quiet diagram.png; then
+            echo "diagram.png is out of date with diagram.mmd. Run mmdc locally and commit the result, or merge to main and let CI regenerate."
+            git --no-pager diff --stat diagram.png
+            exit 1
+          fi

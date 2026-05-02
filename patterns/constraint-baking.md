@@ -14,7 +14,7 @@ Before request time, the system enumerates the decision surface and bakes the co
 
 - **Versioned artifact:** the boundary has a ruleset version, generation timestamp, source assumptions, and known input schema.
 - **Regeneration cadence:** the boundary is refreshed when prices, models, constraints, or throughput assumptions change on a named schedule.
-- **Declared escalation:** when the input is near the boundary, outside coverage, or constrained by requirements the artifact cannot safely decide, the system escalates through a documented live reasoning path.
+- **Declared coverage path:** when the input is near the boundary, outside coverage, or constrained by requirements the artifact cannot safely decide, the system has a documented, gated path — live LLM escalation, deterministic fallback, or explicit abstention.
 
 ## Canonical example
 

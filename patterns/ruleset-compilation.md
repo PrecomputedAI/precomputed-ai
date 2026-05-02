@@ -14,7 +14,7 @@ Before request time, an LLM is prompted to enumerate the decision space and emit
 
 - **Versioned artifact:** the ruleset has a version ID, generation timestamp, and known input schema.
 - **Regeneration cadence:** the ruleset is regenerated on a named schedule, or when underlying inputs (model pricing, available models, vendor changes) shift.
-- **Declared escalation:** when an input doesn't match a rule, or matches with low confidence, the system escalates to a live LLM through a documented, gated path.
+- **Declared coverage path:** when an input doesn't match a rule, or matches with low confidence, the system has a documented, gated path — live LLM escalation, deterministic fallback, or explicit abstention. No silent guesses.
 
 ## Canonical example
 
