@@ -66,7 +66,7 @@ The artifact form itself is open. Rulesets, tables, generated code, precomputed 
 
 ## Patterns
 
-Three named patterns currently have shipped proof. Each is a way of applying the required properties to a real system.
+Four named patterns currently have shipped proof. Each is a way of applying the required properties to a real system.
 
 **Ruleset Compilation.** The LLM writes a decision table ahead of time, and your app reads it. RightModel is the canonical example.
 
@@ -74,9 +74,11 @@ Three named patterns currently have shipped proof. Each is a way of applying the
 
 **Heuristic-First, LLM-Escalated.** A simple rule handles the easy cases. The LLM only gets pulled in when the rule can't decide. RightModel's confidence threshold is the canonical escalation gate.
 
+**Constraint Baking.** The system precomputes the boundary where the default answer stops holding. RunWhere is the canonical example: stay on the hosted API unless the workload belongs in the self-hosting exception set.
+
 ---
 
-## Two tools I've shipped with this pattern
+## Three tools I've shipped with this pattern
 
 **[rightmodel.dev](https://rightmodel.dev)** is a model picker for coding tasks. It uses a precomputed ruleset to recommend the cheapest model tier that fits the job. Prices are refreshed on a schedule. Explanations are precomputed per recommendation.
 
@@ -89,6 +91,10 @@ RightModel is the canonical full-PAI example: precomputed ruleset, scheduled reg
 **[cloudestimate.dev](https://cloudestimate.dev)** sizes self-managed workloads across AWS, Google Cloud, and Microsoft Azure. Published vendor reference architectures are mapped to cloud instance tables, then priced against cached regional snapshots. The "Pricing data last refreshed" footer shows the staleness window directly to the user.
 
 CloudEstimate now hits all three PAI requirements. Pricing snapshots refresh daily via GitHub Actions. Gemini 2.5 Flash generates short sizing explanations on the same schedule, and they get committed to the repo as versioned JSON. For inputs the artifact doesn't cover — like committed-term pricing — the system falls back to a deterministic calculation using the same pricing data. No live LLM call needed. A live LLM escalation is planned for later, for cases where the deterministic answer clearly isn't good enough.
+
+**[runwhere.dev](https://runwhere.dev)** answers the AI infrastructure question that usually becomes a spreadsheet too early: should this workload stay on a hosted API, or is it worth running your own model? The default is intentionally opinionated: stay on the API unless your workload is one of the exceptions.
+
+RunWhere bakes that exception boundary ahead of time. A four-question check — API spend, hosted model, traffic shape, and hard constraints — serves the common answer instantly. When the workload plausibly belongs in the exception set, the artifact compares managed endpoints, serverless GPU, always-on GPU VMs, scheduled batch GPU, and owned hardware. A live LLM analysis path is reserved for close calls and likely outliers.
 
 ---
 
@@ -149,10 +155,10 @@ Concrete ways to engage:
 
 **Patterns and spec:** [github.com/PrecomputedAI/precomputed-ai](https://github.com/PrecomputedAI/precomputed-ai)
 
-**Worked examples:** [rightmodel.dev](https://rightmodel.dev) · [cloudestimate.dev](https://cloudestimate.dev)
+**Worked examples:** [rightmodel.dev](https://rightmodel.dev) · [cloudestimate.dev](https://cloudestimate.dev) · [runwhere.dev](https://runwhere.dev)
 
 Licensed CC BY 4.0. Cite as: Raquedan, R. (2026). *Precomputed AI: Reason Ahead of Time, Serve Instantly.* https://precomputedai.com
 
-*Last refreshed: 2026-04-25 — v0.2*
+*Last refreshed: 2026-05-01 — v0.3*
 
 This site is open source. [Improve this page](https://github.com/PrecomputedAI/precomputed-ai/edit/main/README.md).

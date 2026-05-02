@@ -7,9 +7,10 @@ Named patterns under [Precomputed AI](https://precomputedai.com). Each pattern a
 | [Ruleset Compilation](./ruleset-compilation.md) | [RightModel](https://rightmodel.dev) |
 | [Scheduled Generation](./scheduled-generation.md) | [CloudEstimate](https://cloudestimate.dev) |
 | [Heuristic-First, LLM-Escalated](./heuristic-first-llm-escalated.md) | [RightModel](https://rightmodel.dev) |
+| [Constraint Baking](./constraint-baking.md) | [RunWhere](https://runwhere.dev) |
 
 ## Contributing
 
 A pattern earns a name when it has a shipped worked example and meets all three required properties. Pattern PRs without a worked example will be redirected to an issue tagged `pattern-candidate` until a demo exists.
 
-Open a PR against this directory with a new pattern file following the structure of the existing three: problem, mechanism, required properties, canonical example, when-it-fits, when-it-doesn't.
+Open a PR against this directory with a new pattern file following the structure of the existing patterns: problem, mechanism, required properties, canonical example, when-it-fits, when-it-doesn't.
