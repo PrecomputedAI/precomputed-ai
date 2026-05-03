@@ -4,7 +4,7 @@ Named patterns under [Precomputed AI](https://precomputedai.com). Each pattern a
 
 | Pattern | Canonical example |
 |---|---|
-| [Ruleset Compilation](./ruleset-compilation.md) | [RightModel](https://rightmodel.dev) |
+| [Explanation Caching](./explanation-caching.md) | [RightModel](https://rightmodel.dev) |
 | [Constraint Baking](./constraint-baking.md) | [RunWhere](https://runwhere.dev) |
 | [Scheduled Generation](./scheduled-generation.md) | [CloudEstimate](https://cloudestimate.dev) |
 

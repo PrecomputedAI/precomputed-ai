@@ -66,7 +66,7 @@ Every PAI system has three required properties. Without all three, you have some
 
 Three named patterns currently have shipped proof. Each is a way of applying the required properties to a real system. They compose: a real PAI system typically uses one artifact-shape pattern together with the cadence pattern.
 
-**Ruleset Compilation.** The LLM writes a decision table ahead of time, and your app reads it. RightModel is the canonical example.
+**Explanation Caching.** The decision logic is deterministic; the LLM writes the reasoning layer ahead of time, and your app serves precomputed explanations alongside the result. RightModel is the canonical example.
 
 **Constraint Baking.** The system precomputes the boundary where the default answer stops holding. RunWhere is the canonical example: stay on the hosted API unless the workload belongs in the self-hosting exception set.
 
@@ -76,7 +76,7 @@ Three named patterns currently have shipped proof. Each is a way of applying the
 
 ## Three tools I've shipped with this pattern
 
-**[rightmodel.dev](https://rightmodel.dev)** — model picker for coding tasks. *Input:* a coding task signal set. *Artifact:* a JSON ruleset (`v2`) mapping signals to model tiers, plus precomputed explanations per recommendation. *Cadence:* refreshed on schedule when prices or model availability shift. *Coverage path:* opt-in "deep analysis" that escalates to a live LLM with cost disclosed before the user commits. Canonical full-PAI example: all three required properties met.
+**[rightmodel.dev](https://rightmodel.dev)** — model picker for coding tasks. *Input:* a coding task signal set. *Decision logic:* a deterministic ruleset mapping signals to model tiers — no LLM in the decision path. *Artifact:* the explanation cache — precomputed, LLM-authored reasoning for each recommendation, versioned and served alongside the result. *Cadence:* explanation cache refreshed on schedule when prices, models, or capabilities shift. *Coverage path:* opt-in "deep analysis" that escalates to a live LLM with cost disclosed before the user commits. The numbers question: what does it cost to keep the explanation layer fresh, and what does that buy us? Canonical full-PAI example: all three required properties met.
 
 **[cloudestimate.dev](https://cloudestimate.dev)** — sizes self-managed workloads across AWS, GCP, and Azure. *Input:* workload + region + cloud. *Artifact:* vendor reference architectures mapped to instance tables, plus LLM-generated sizing explanations, all committed as versioned JSON. *Cadence:* daily pricing snapshots and regenerated explanations via GitHub Actions; "Pricing data last refreshed" footer surfaces the staleness window. *Coverage path:* deterministic fallback (e.g. committed-term pricing computed against the same data); no live LLM escalation in the user flow today. Partial PAI: Scheduled Generation only — listed here as an honest worked example of where live escalation didn't fit the product.
 
@@ -145,6 +145,6 @@ Concrete ways to engage:
 
 Licensed CC BY 4.0. Cite as: Raquedan, R. (2026). *Precomputed AI: Reason Ahead of Time, Serve Instantly.* https://precomputedai.com
 
-*Last refreshed: 2026-05-02 — v0.4*
+*Last refreshed: 2026-05-03 — v0.5*
 
 This site is open source. [Improve this page](https://github.com/PrecomputedAI/precomputed-ai/edit/main/README.md).
