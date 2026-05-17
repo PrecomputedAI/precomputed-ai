@@ -9,9 +9,9 @@ flowchart LR
 
     subgraph REQ["Serve & Escalate — At Request Time"]
         direction TB
-        U[User Request] --> D{Coverage<br/>Confidence<br/>Freshness OK?}
+        U[User Request] --> D{Coverage<br/>Freshness OK?}
         D -->|Yes — common case| S[Serve from artifact<br/>no live inference]
-        D -->|No — declared path| E[Escalate to live LLM<br/>bounded, disclosed]
+        D -->|No — declared path| E[Escalate: live LLM,<br/>fallback, or abstention]
     end
 
     A ==> D

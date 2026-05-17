@@ -1,4 +1,4 @@
-# Scheduled Generation
+# Snapshots
 
 *The artifact refreshes on a named cadence. Like a newspaper, not a livestream.*
 
@@ -14,7 +14,7 @@ A scheduled job — daily, weekly, or triggered by an external event — regener
 
 - **Versioned artifact:** each regeneration produces a new versioned snapshot.
 - **Regeneration cadence:** the schedule is named and enforced. The staleness window is a property of the system, not an accident.
-- **Declared coverage path:** when freshness has expired or the artifact does not cover an input, the next step is documented — live LLM escalation, deterministic fallback, or explicit abstention.
+- **Declared escalation path:** when freshness has expired or the artifact does not cover an input, the next step is documented — live LLM escalation, deterministic fallback, or explicit abstention.
 
 ## Canonical example
 

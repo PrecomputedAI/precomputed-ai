@@ -4,9 +4,9 @@ Precomputed AI is a design-pattern repo, not a code library. The bar is editoria
 
 ## Three ways to contribute
 
-1. **Pattern contributions** — open a PR adding a file to [`patterns/`](./patterns/) following the structure of the existing patterns: Problem, Mechanism, Required properties, Canonical example, When it fits, When it doesn't. A pattern earns a name when it has a shipped worked example *and* meets all three required properties (versioned artifact, regeneration cadence, declared coverage path). Pattern PRs without a worked example will be redirected to a [`pattern-candidate`](./.github/ISSUE_TEMPLATE/pattern-candidate.md) issue until a demo exists.
+1. **Pattern contributions** — open a PR adding a file to [`patterns/`](./patterns/) following the structure of the existing patterns: Problem, Mechanism, Required properties, Canonical example, When it fits, When it doesn't. A pattern earns a name when it has a shipped worked example *and* meets all three required properties (versioned artifact, regeneration cadence, declared escalation path). Pattern PRs without a worked example will be redirected to a [`pattern-candidate`](./.github/ISSUE_TEMPLATE/pattern-candidate.md) issue until a demo exists.
 
-2. **Worked examples** — open an [`example`](./.github/ISSUE_TEMPLATE/example.md) issue linking to your shipped artifact. The strongest examples include the input space, the artifact form and storage, the regeneration cadence, and the coverage path for inputs the artifact can't decide.
+2. **Worked examples** — open an [`example`](./.github/ISSUE_TEMPLATE/example.md) issue linking to your shipped artifact. The strongest examples include the decision space, the artifact form and storage, the regeneration cadence, and the escalation path for inputs the artifact can't decide.
 
 3. **Critique the definitions** — open a [`discuss`](./.github/ISSUE_TEMPLATE/discussion.md) issue. Sharp critique is more useful than agreement. Push back on definitions, on the boundary between patterns, on whether a required property is actually required.
 
